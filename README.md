@@ -68,7 +68,14 @@ is used for a free SSL certificate.
   - mysql --password=$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'trip_web'; GRANT ALL ON $EVE_DUMP_DB.* TO '$MYSQL_USER'@'trip_web';"
   - Exit the container shell: exit
 12. Set up cron for scheduled Tripwire maintenance tasks, crontab for any account that has access to docker will do:
-  - 0 * * * * docker exec trip_web php /var/www/html/system_activity.cron.php
-  - */3 * * * * docker exec trip_web php /var/www/html/account_update.cron.php
+  - 0 \* \* \* \* docker exec trip_web php /var/www/html/system_activity.cron.php
+  - \*/3 \* \* \* \* docker exec trip_web php /var/www/html/account_update.cron.php
 13. Set up cron for updating the SSL certificate:
   - sudo cp conf/certbot-renew /etc/cron.d/
+
+**That's it, you have a working Tripwire installation!**
+
+*After the install you may want to consider removing Google Analytics tracking for Tripwire. Both landing.php
+and tripwire.php have active Analytics tracking leaking the data presumable for the author of the software.
+While the purpose of the tracking is hopefully benign you are responsible for your site and GA can be configured
+in ways that are a breach of GDPR in the EU.*
