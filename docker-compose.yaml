@@ -20,6 +20,7 @@ services:
     volumes:
       - ./php:/var/www/html # Where Tripwire lives
       - ./certificates:/etc/ssl/certificates # Certificates copied from /etc/letsencrypt
+      - /var/log/apache-docker:/var/log/apache-docker # Write logs directly to the host OS
     ports:
       - "80:80"
       - "443:443"

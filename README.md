@@ -53,8 +53,13 @@ is used for a free SSL certificate.
   - sudo cp /etc/letsencrypt/live/$HOSTNAME/fullchain.pem ./certificates/tripwire.crt
   - sudo cp /etc/letsencrypt/live/$HOSTNAME/privkey.pem ./certificates/tripwire.key
   - sudo chmod a+r certificates/tripwire.key
-9. Build the Docker containers: docker-compose up --build -d
-10. Create databases and setup users:
+9. Create a directory for Apache logs and configure log rotation for them
+  - sudo mkdir /var/log/apache-docker
+  - sudo cp conf/apache-docker.logrotate /etc/logrotate.d/apache-docker
+  - sudo chown root:root /etc/logrotate.d/apache-docker
+  - sudo chmod 644 /etc/logrotate.d/apache-docker
+10. Build the Docker containers: docker-compose up --build -d
+11. Create databases and setup users:
   - Run all following inside of the database container: docker exec -it trip_db bash
   - mysql --password=$MYSQL_ROOT_PASSWORD -e 'CREATE DATABASE eve_dump; CREATE DATABASE tripwire;'
   - mysql --password=$MYSQL_ROOT_PASSWORD tripwire < /var/eve_dump/tripwire.sql
@@ -62,8 +67,8 @@ is used for a free SSL certificate.
   - mysql --password=$MYSQL_ROOT_PASSWORD -e "GRANT USAGE ON *.* TO '$MYSQL_USER'@'trip_web' IDENTIFIED BY '$MYSQL_PASSWORD';"
   - mysql --password=$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'trip_web'; GRANT ALL ON $EVE_DUMP_DB.* TO '$MYSQL_USER'@'trip_web';"
   - Exit the container shell: exit
-11. Set up cron for scheduled Tripwire maintenance tasks, crontab for any account that has access to docker will do:
+12. Set up cron for scheduled Tripwire maintenance tasks, crontab for any account that has access to docker will do:
   - 0 * * * * docker exec trip_web php /var/www/html/system_activity.cron.php
   - */3 * * * * docker exec trip_web php /var/www/html/account_update.cron.php
-12. Set up cron for updating the SSL certificate:
+13. Set up cron for updating the SSL certificate:
   - sudo cp conf/certbot-renew /etc/cron.d/

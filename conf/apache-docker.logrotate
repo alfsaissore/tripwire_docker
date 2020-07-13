@@ -1,0 +1,11 @@
+/var/log/apache-docker/*
+{
+  rotate 12
+  weekly
+  compress
+  missingok
+  notifempty
+  postrotate
+    docker exec trip_web /etc/init.d/apache2 reload > /dev/null
+  endscript
+}
