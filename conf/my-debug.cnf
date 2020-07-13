@@ -1,0 +1,4 @@
+[mysqld]
+SET GLOBAL general_log = 'on'
+log_error = /var/log/mysql/error
+log_warnings = 2

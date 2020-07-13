@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    image: mariadb:10
+    container_name: trip_db
+    volumes:
+      - mysql_data:/var/lib/mysql # Persistent storage for the database
+      - ./backups:/var/backups # In case  you want to backup your database
+      - ./eve_dump:/var/eve_dump # For installing databases and for future EVE data updates
+    container_name: trip_db
+    restart: unless-stopped
+    env_file: .env
+  web:
+    build:
+      context: .
+    container_name: trip_web
+    depends_on:
+      - db # Always start the database first
+    volumes:
+      - ./php:/var/www/html # Where Tripwire lives
+      - ./certificates:/etc/ssl/certificates # Certificates copied from /etc/letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file: .env
+volumes:
+  mysql_data:

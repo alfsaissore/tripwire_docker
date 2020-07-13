@@ -1,0 +1,43 @@
+# This is where your secrets and configuration lives
+# Copy this file as .env and edit the values
+#
+#
+# THESE VALUES MUST BE UPDATED
+#
+
+# Full domain name where Tripwire is installed
+CDN_DOMAIN=localhost
+
+# These you will get from https://developers.eveonline.com/applications
+EVE_SSO_CLIENT=cbe7e2a5258c404a86372eb452e3b165
+EVE_SSO_SECRET=QCByZNIGR2SnoQxXnyygdkzGrgRUnw4QFuVl3vhh
+EVE_SSO_REDIRECT=https://localhost/index.php?mode=sso
+
+
+#
+# Changing these values is optional
+# ..but recommended
+#
+
+# Used in the title and top of each page
+APP_NAME=Tripwire
+
+# CCP can see this from their logs, it's common courtesy to include contact info in it
+USER_AGENT='Tripwire Server - unknown@player.com'
+
+# Application time zone
+TIME_ZONE=EET
+
+# Evidenty enables or disables an API for fetching sigs, holes or comments in JSON format
+TRIPWIRE_API=true
+
+# Database settings
+# Random passwords are left in intentionally, changing them is recommended
+# For added protection the database is not exposed outside of the containers
+MYSQL_ROOT_PASSWORD=WZnrTpvJ92gdCxiCPJ9ujsGULTW7P7QqgcbQcBaPJU
+MYSQL_DATABASE=tripwire
+MYSQL_USER=trip
+MYSQL_PASSWORD=pDQnqHM3xPhCkJJufW2ikYDfkUR4mtY3AHaRqKpcjm
+
+# Name of the Eve data dump database
+EVE_DUMP_DB=eve_dump

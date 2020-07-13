@@ -1,0 +1,3 @@
+# /etc/cron.d/certbot-renew: crontab entries for renewal of certbot certificates
+
+0 4 1 * * /var/www/tripwire/conf/certbot-renew.sh
