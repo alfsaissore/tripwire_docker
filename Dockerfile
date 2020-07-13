@@ -7,6 +7,7 @@ COPY ./conf/default-ssl.conf /etc/apache2/sites-enabled/
 COPY ./conf/ssl-params.conf /etc/apache2/conf-enabled/
 RUN a2enmod ssl
 RUN a2enmod headers
+RUN a2enmod rewrite
 RUN a2enmod socache_shmcb
 
 # MariaDB configuration
