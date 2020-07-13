@@ -1,0 +1,4 @@
+# Ignore local configuration
+.env
+# Ignore Tripwire clone
+php
