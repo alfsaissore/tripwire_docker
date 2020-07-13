@@ -34,7 +34,7 @@ is used for a free SSL certificate.
   - find . -name "sde-*-TRANQUILITY.sql" -exec mv {} eve_dump/TRANQUILITY.sql \;
   - rm -rf sde-20*
 3. Copy tripwire database structure to a directory visible for the database container: cp php/.docker/mysql/tripwire.sql eve_dump/
-7. Create an EVE developer application at: https://developers.eveonline.com/applications - Required scopes for it are:
+4. Create an EVE developer application at: https://developers.eveonline.com/applications - Required scopes for it are:
     - esi-location.read_location.v1
     - esi-location.read_ship_type.v1
     - esi-ui.open_window.v1 (THIS CURRENTLY DOESN'T EXIST)
@@ -42,12 +42,12 @@ is used for a free SSL certificate.
     - esi-characters.read_corporation_roles.v1
     - esi-location.read_online.v1
     - esi-characters.read_titles.v1
-8. Edit the .env file, it contains instructions on how to do that
-9. Copy Tripwire configuration in place:
+5. Edit the .env file, it contains instructions on how to do that
+6. Copy Tripwire configuration in place:
   - cp conf/config.php php/
   - cp conf/db.inc.php php/
-9. Create SSL certificates: sudo certbot certonly --standalone -d $HOSTNAME
-10. Copy the certificates to inside of the web container:
+7. Create SSL certificates: sudo certbot certonly --standalone -d $HOSTNAME
+8. Copy the certificates to inside of the web container:
   - sudo cp /etc/letsencrypt/live/$HOSTNAME/fullchain.pem ./certificates/tripwire.crt
   - sudo cp /etc/letsencrypt/live/$HOSTNAME/privkey.pem ./certificates/tripwire.key
 9. Build the Docker containers: docker-compose up --build -d

@@ -9,6 +9,7 @@
 CDN_DOMAIN=localhost
 
 # These you will get from https://developers.eveonline.com/applications
+# Placeholder values show the format, but they don't exist in EVE Applications
 EVE_SSO_CLIENT=cbe7e2a5258c404a86372eb452e3b165
 EVE_SSO_SECRET=QCByZNIGR2SnoQxXnyygdkzGrgRUnw4QFuVl3vhh
 EVE_SSO_REDIRECT=https://localhost/index.php?mode=sso
