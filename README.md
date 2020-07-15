@@ -64,7 +64,7 @@ is used for a free SSL certificate.
   - mysql --password=$MYSQL_ROOT_PASSWORD -e 'CREATE DATABASE eve_dump; CREATE DATABASE tripwire;'
   - mysql --password=$MYSQL_ROOT_PASSWORD tripwire < /var/eve_dump/tripwire.sql
   - mysql --password=$MYSQL_ROOT_PASSWORD eve_dump < /var/eve_dump/TRANQUILITY.sql
-  - mysql --password=$MYSQL_ROOT_PASSWORD -e "GRANT USAGE ON *.* TO '$MYSQL_USER'@'trip_web' IDENTIFIED BY '$MYSQL_PASSWORD';"
+  - mysql --password=$MYSQL_ROOT_PASSWORD -e "GRANT USAGE ON \*.\* TO '$MYSQL_USER'@'trip_web' IDENTIFIED BY '$MYSQL_PASSWORD';"
   - mysql --password=$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'trip_web'; GRANT ALL ON $EVE_DUMP_DB.* TO '$MYSQL_USER'@'trip_web';"
   - Exit the container shell: exit
 12. Set up cron for scheduled Tripwire maintenance tasks, crontab for any account that has access to docker will do:
@@ -79,3 +79,6 @@ is used for a free SSL certificate.
 and tripwire.php have active Analytics tracking leaking the data presumable for the author of the software.
 While the purpose of the tracking is hopefully benign you are responsible for your site and GA can be configured
 in ways that are a breach of GDPR in the EU.*
+
+## Other notes
+- If you move an existing Tripwire database from one server to another you need to either have identical user + host for the database or update the user on each DEFINER line to match the new environment.
