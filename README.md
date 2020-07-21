@@ -58,19 +58,25 @@ is used for a free SSL certificate.
   - sudo cp conf/apache-docker.logrotate /etc/logrotate.d/apache-docker
   - sudo chown root:root /etc/logrotate.d/apache-docker
   - sudo chmod 644 /etc/logrotate.d/apache-docker
-10. Build the Docker containers: docker-compose up --build -d
-11. Create databases and setup users:
+10. Create a directory for MariaDB logs and configure log rotation for them
+  - sudo mkdir /var/log/mysql-docker
+  - sudo cp conf/mysql-docker.logrotate /etc/logrotate.d/mysql-docker
+  - sudo chown root:root /etc/logrotate.d/mysql-docker
+  - sudo chmod 644 /etc/logrotate.d/mysql-docker
+11. Build the Docker containers: docker-compose up --build -d
+12. Create databases and setup users:
   - Run all following inside of the database container: docker exec -it trip_db bash
-  - mysql --password=$MYSQL_ROOT_PASSWORD -e 'CREATE DATABASE eve_dump; CREATE DATABASE tripwire;'
-  - mysql --password=$MYSQL_ROOT_PASSWORD tripwire < /var/eve_dump/tripwire.sql
-  - mysql --password=$MYSQL_ROOT_PASSWORD eve_dump < /var/eve_dump/TRANQUILITY.sql
-  - mysql --password=$MYSQL_ROOT_PASSWORD -e "GRANT USAGE ON \*.\* TO '$MYSQL_USER'@'trip_web' IDENTIFIED BY '$MYSQL_PASSWORD';"
-  - mysql --password=$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'trip_web'; GRANT ALL ON $EVE_DUMP_DB.* TO '$MYSQL_USER'@'trip_web';"
+  - mysql --password=$MYSQL_ROOT_PASSWORD -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA unix_socket";
+  - mysql -e 'CREATE DATABASE eve_dump; CREATE DATABASE tripwire;'
+  - mysql tripwire < /var/eve_dump/tripwire.sql
+  - mysql eve_dump < /var/eve_dump/TRANQUILITY.sql
+  - mysql -e "GRANT USAGE ON \*.\* TO '$MYSQL_USER'@'trip_web' IDENTIFIED BY '$MYSQL_PASSWORD';"
+  - mysql -e "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'trip_web'; GRANT ALL ON $EVE_DUMP_DB.* TO '$MYSQL_USER'@'trip_web';"
   - Exit the container shell: exit
-12. Set up cron for scheduled Tripwire maintenance tasks, crontab for any account that has access to docker will do:
+13. Set up cron for scheduled Tripwire maintenance tasks, crontab for any account that has access to docker will do:
   - 0 \* \* \* \* docker exec trip_web php /var/www/html/system_activity.cron.php
   - \*/3 \* \* \* \* docker exec trip_web php /var/www/html/account_update.cron.php
-13. Set up cron for updating the SSL certificate:
+14. Set up cron for updating the SSL certificate:
   - sudo cp conf/certbot-renew /etc/cron.d/
 
 **That's it, you have a working Tripwire installation!**

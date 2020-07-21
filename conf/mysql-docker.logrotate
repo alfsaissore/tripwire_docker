@@ -1,0 +1,12 @@
+/var/log/mysql-docker/* {
+        missingok
+        notifempty
+        daily
+        rotate 30
+        compress
+        delaycompress
+        sharedscripts
+        olddir archive/
+    postrotate
+      docker exec trip_db mysqladmin --local flush-error-log flush-engine-log flush-general-log flush-slow-log > /dev/null
+    endscript

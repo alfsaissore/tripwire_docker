@@ -10,6 +10,7 @@ services:
       - mysql_data:/var/lib/mysql # Persistent storage for the database
       - ./backups:/var/backups # In case  you want to backup your database
       - ./eve_dump:/var/eve_dump # For installing databases and for future EVE data updates
+      - /var/log/mysql-docker:/var/log/mysql-docker # Write logs directly to the host OS
     container_name: trip_db
     restart: unless-stopped
     env_file: .env
