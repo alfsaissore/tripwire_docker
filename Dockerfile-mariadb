@@ -1,0 +1,5 @@
+# Use the official MariaDB 10 image
+FROM mariadb:10
+
+# MariaDB configuration
+COPY ./php/.docker/mysql/my.cnf /etc/mysql/conf.d/tripwire.cnf

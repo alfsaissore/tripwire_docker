@@ -82,3 +82,10 @@ in ways that are a breach of GDPR in the EU.*
 
 ## Other notes
 - If you move an existing Tripwire database from one server to another you need to either have identical user + host for the database or update the user on each DEFINER line to match the new environment.
+
+Sig cleanup, not sure if this is relevant any more
+
+SELECT s.* FROM signatures s LEFT JOIN wormholes w ON (s.id = initialID OR s.id = secondaryID) WHERE s.type = 'wormhole' AND life IS NULL;
+
+this one finds any signatures that have no corresponding wormhole table entry - delete all signatures that appear
+SELECT w.id AS wormholeID, COUNT(s.id) AS connections, s.id AS signatureID FROM wormholes w LEFT JOIN signatures s ON (s.id = initialID OR s.id = secondaryID) AND s.type = 'wormhole' WHERE life IS NOT NULL GROUP BY w.id;

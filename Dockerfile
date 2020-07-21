@@ -10,9 +10,6 @@ RUN a2enmod headers
 RUN a2enmod rewrite
 RUN a2enmod socache_shmcb
 
-# MariaDB configuration
-COPY ./php/.docker/mysql/my.cnf /etc/mysql/conf.d/tripwire.cnf
-
 # PHP configuration
 RUN docker-php-ext-install pdo pdo_mysql mysqli
 COPY php/.docker/php-fpm/php.ini /usr/local/etc/php/conf.d/tripwire.ini

@@ -2,7 +2,9 @@ version: '3'
 
 services:
   db:
-    image: mariadb:10
+    build:
+      context: .
+      dockerfile: Dockerfile-mariadb
     container_name: trip_db
     volumes:
       - mysql_data:/var/lib/mysql # Persistent storage for the database
