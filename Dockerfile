@@ -12,4 +12,4 @@ RUN a2enmod socache_shmcb
 
 # PHP configuration
 RUN docker-php-ext-install pdo pdo_mysql mysqli
-COPY php/.docker/php-fpm/php.ini /usr/local/etc/php/conf.d/tripwire.ini
+COPY conf/php.ini /usr/local/etc/php/conf.d/tripwire.ini
